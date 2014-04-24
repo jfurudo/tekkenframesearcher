@@ -83,6 +83,7 @@ $().ready(function () {
         for (var i = 0; i < moves.length; i++) {
             var row = $("<tr />");
             var tdArray = [];
+            tdArray.push("<td>" + moves[i].charactor + "</td>");
             tdArray.push("<td>" + moves[i].name + "</td>");
             tdArray.push("<td>" + moves[i].command + "</td>");
             tdArray.push("<td>" + moves[i].detection + "</td>");
