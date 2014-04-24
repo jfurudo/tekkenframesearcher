@@ -54,11 +54,11 @@ $().ready(function () {
                 data.where._guard_min = guardMin;
             } else if (frameType === "gt") {
                 data.where._guard_min = {
-                    greaterThan: guardMin
+                    greaterThan: Number(guardMin) - 1
                 };
             } else if (frameType === "lt") {
                 data.where._guard_max = {
-                    lessThan: guardMin
+                    lessThan: Number(guardMin) + 1
                 };
             }
         }
