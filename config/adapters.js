@@ -16,24 +16,34 @@ module.exports.adapters = {
 
   // If you leave the adapter config unspecified 
   // in a model definition, 'default' will be used.
-  'default': 'disk',
+  // 'default': 'disk',
+  'default': 'mongo',
 
   // Persistent adapter for DEVELOPMENT ONLY
   // (data is preserved when the server shuts down)
-  disk: {
-    module: 'sails-disk'
+  
+  // disk: {
+  //   module: 'sails-disk'
+  // },
+  memory: {
+    module: 'sails-dirty',
+    isMemory: true
   },
-
   // MySQL is the world's most popular relational database.
   // Learn more: http://en.wikipedia.org/wiki/MySQL
-  myLocalMySQLDatabase: {
 
-    module: 'sails-mysql',
-    host: 'YOUR_MYSQL_SERVER_HOSTNAME_OR_IP_ADDRESS',
-    user: 'YOUR_MYSQL_USER',
+  mongo: {
+    module: 'sails-mongo',
+    url: 'mongodb://jfurudo1:kkkysos1@ds047207.mongolab.com:47207/heroku_app24460365'
+  }
+  // myLocalMySQLDatabase: {
+
+  //   module: 'sails-mysql',
+  //   host: 'YOUR_MYSQL_SERVER_HOSTNAME_OR_IP_ADDRESS',
+  //   user: 'YOUR_MYSQL_USER',
     // Psst.. You can put your password in config/local.js instead
     // so you don't inadvertently push it up if you're using version control
-    password: 'YOUR_MYSQL_PASSWORD', 
-    database: 'YOUR_MYSQL_DB'
+  //   password: 'YOUR_MYSQL_PASSWORD', 
+  //   database: 'YOUR_MYSQL_DB'
   }
 };
