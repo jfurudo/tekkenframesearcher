@@ -34,7 +34,8 @@ module.exports.adapters = {
 
   mongo: {
     module: 'sails-mongo',
-    url: 'mongodb://jfurudo1:kkkysos1@ds047207.mongolab.com:47207/heroku_app24460365'
+//     url: 'mongodb://localhost:27017/tekken'
+    url: 'mongodb://root:rootkkkysos1@ds047207.mongolab.com:47207/heroku_app24460365'
   }
   // myLocalMySQLDatabase: {
 
