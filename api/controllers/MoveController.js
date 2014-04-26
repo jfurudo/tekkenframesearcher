@@ -17,7 +17,21 @@
 
 module.exports = {
     
-  
+    resetGuard: function (req, res) {
+        Move.find({}, function (err, moves) {
+            _.each(moves, function (move) {
+                if (move._guard_min !== undefined || move._guard_max !== undefined) {
+                    if (move._guard_min !== undefined) {
+                        move._guard_min = Number(move._guard_min);
+                    }
+                    if (move._guard_max !== undefined) {
+                        move._guard_max = Number(move._guard_max);
+                    }
+                    move.save(function () {});
+                }
+            });
+        });
+    },
     guard: function (req, res) {
         Move.find({}, function (err, moves) {
             var names = ["guard", "hit", "ch"];
@@ -35,8 +49,8 @@ module.exports = {
                             max = frames[0];
                             min = frames[1];
                         }
-                        move["_" + name + "_min"] = min;
-                        move["_" + name + "_max"] = max;
+                        move["_" + name + "_min"] = Number(min);
+                        move["_" + name + "_max"] = Number(max);
                     } else {
                         var frame = move[name].match(/(\+|-|)?[0-9]+/g);
                         if (frame !== null && frame.length !== 0) {
@@ -44,8 +58,8 @@ module.exports = {
                         } else {
                             frame = null;                            
                         }
-                        move["_" + name + "_min"] = frame;
-                        move["_" + name + "_max"] = frame;
+                        move["_" + name + "_min"] = Number(frame);
+                        move["_" + name + "_max"] = Number(frame);
                     }
                 });
                 move.save(function() {});
