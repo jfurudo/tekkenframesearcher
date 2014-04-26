@@ -13,7 +13,9 @@ module.exports = {
   	/* e.g.
   	nickname: 'string'
   	*/
-    
+    _guard_min: 'integer',
+    _guard_max: 'integer'
+
   }
 
 };
