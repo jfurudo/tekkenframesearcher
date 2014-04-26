@@ -1,4 +1,17 @@
+var enumDetections = [
+    "上",
+    "中",
+    "下",
+    "特殊",
+    "ガ不",
+    "投げ"
+];
+
+var socket;
+
 $().ready(function () {
+    socket = io.connect("http://localhost:1337");
+
     $("#detectionFlag").click(function () {
         if (this.value === "0") {
             this.value = 1;
@@ -8,6 +21,16 @@ $().ready(function () {
             $("#detectionSelectSet").attr("disabled", "disabled");
         }
     });
+    $("#detection").change(function () {
+        console.log(this.value === "5");
+        if (this.value === "5" || this.value === "4") {
+            // 投げが選択された場合
+            console.log("hoge");
+            $("#_guard_min").attr("disabled", "disabled");
+        } else {
+            $("#_guard_min").removeAttr("disabled");
+        }
+    }).change();
     $("#frameRadio button").click(function () {
         console.log(this.value);
         $("#frameType").val(this.value);
@@ -23,6 +46,7 @@ $().ready(function () {
         $("#charactor").val("");
         $("#name").val("");
         $("#detectionFlag").val("0");
+        $("#detectionFlag").removeAttr("checked");
         $("#detectionSelectSet").attr("disabled", "disabled");
         $("button[value=eq]").trigger("click");
         $("#_guard_min").val("");
@@ -35,8 +59,10 @@ $().ready(function () {
             detection = $("#detection").val(),
             frameType = $("#frameType").val(),
             guardMin = $("#_guard_min").val(),
-            guardMax = $("#_guard_max").val();
-        var data = {where: {}};
+            guardMax = $("#_guard_max").val(),
+            searchType = "move",
+            data = {where: {}};
+
         if (charactor !== "") {
             data.where.charactor = charactor;
         }
@@ -46,39 +72,45 @@ $().ready(function () {
             };
         }
         if (detectionFlag === "1") {
-            data.where.lastDetection = detection;
+            if (detection !== "5") {
+                data.where.lastDetection = enumDetections[detection];
+            } else {
+                // 投げ以外
+                searchType = "throw";
+            }
         }
-        if (guardMin !== "") {
+        if (guardMin !== "" && detection !== "4" && detection !== "5") {
             if (frameType === "eq") {
                 data.where._guard_max = guardMin;
                 data.where._guard_min = guardMin;
             } else if (frameType === "gt") {
                 data.where._guard_min = {
-                    greaterThan: Number(guardMin) - 1
+                    ">=": Number(guardMin)
                 };
             } else if (frameType === "lt") {
                 data.where._guard_max = {
-                    lessThan: Number(guardMin) + 1
+                    "<=": Number(guardMin)
                 };
             }
         }
-        console.log(data);
-        $.ajax({
-            type: "POST",
-            url: "move/find",
-            dataType: "json",
-            data: data,
-            success: function (data, dataType) {
-                console.log(data);
-                appendMoveRow(data);
-            },
-            error: function (xhr, textStatus, errorThrown) {
-                console.error(errorThrown);
-                console.log(textStatus);
-            }
+        socket.request("/move/find", data, function (data) {
+            setTableHeader(searchType);
+            appendMoveRow(data);
         });
     });
-    var appendMoveRow = function (moves) {
+    var setTableHeader = function (type) {
+        var ths = $("thead tr").children();
+        if (type === "move") {
+            $(ths[7]).text("ガード");
+            $(ths[7]).text("ヒット");
+            $(ths[8]).text("CH");
+        } else {
+            $(ths[7]).text("抜け");
+            $(ths[7]).text("抜け後");
+            $(ths[8]).text("投げ後");
+        }
+    };
+    var appendMoveRow = function (moves, type) {
         $("#moveList").empty();
         for (var i = 0; i < moves.length; i++) {
             var row = $("<tr />");
