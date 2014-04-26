@@ -10,7 +10,7 @@ var enumDetections = [
 var socket;
 
 $().ready(function () {
-    socket = io.connect("./");
+    socket = io.connect(location.href);
 
     $("#detectionFlag").click(function () {
         if (this.value === "0") {
