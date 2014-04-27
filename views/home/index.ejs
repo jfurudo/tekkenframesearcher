@@ -1,9 +1,6 @@
-<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" type="text/css">
-<link rel="stylesheet" href="select2/css/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="select2/select2.css" type="text/css">
 <link rel="stylesheet" href="styles/index.css" type="text/css">
-<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
-<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="select2/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="select2/select2.js"></script>
 <script type="text/javascript" src="js/index.js"></script>
 <div class="container offset2" style="margin-top: 20px">
   <div class="row">
@@ -16,13 +13,13 @@
       <div class="form-group">
         <label class="col-sm-2 control-label">キャラ名</label>
         <div class="col-sm-4">
-          <input id="charactor" class="form-control" name="charactor" type="text" value="吉光">
+          <input id="character" class="form-control select" name="character" type="text" value="吉光">
         </div>
       </div>
       <div class="form-group">
         <label class="col-sm-2 control-label">技名</label>
         <div class="col-sm-3">
-          <input id="name" class="form-control" name="name" type="text" value="卍">
+          <input id="name" class="form-control" name="name" type="text">
         </div>
         <label class="col-sm-1 control-label">を含む</label>
       </div>
@@ -54,16 +51,16 @@
         <div class="col-sm-4">
           <div id="frameRadio" class="btn-group">
             <button type="button" class="btn btn-default radio" value="eq">一致</button>
-            <button type="button" class="btn btn-default active radio" value="gt">以上</button>
-            <button type="button" class="btn btn-default radio" value="lt">以下</button>
+            <button type="button" class="btn btn-default radio" value="gt">以上</button>
+            <button type="button" class="btn btn-default active radio" value="lt">以下</button>
             <button type="button" class="btn btn-default disabled radio" value="range">範囲</button>
           </div>
         </div>
-        <input id="frameType" type="hidden" value="gt"/>
+        <input id="frameType" type="hidden" value="lt"/>
       </div>
       <div class="form-group">
         <div class="col-sm-offset-2 col-sm-4">
-          <input id="_guard_min" name="_guard_min" class="form-control col-sm-1 frame" type="number" value="1"/>
+          <input id="_guard_min" name="_guard_min" class="form-control col-sm-1 frame" type="number" value="-14"/>
           <label>&nbsp;〜&nbsp;</label>
           <input id="_guard_max" name="_guard_max" class="form-control frame" type="number" disabled/>
         </div>
