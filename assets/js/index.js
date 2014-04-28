@@ -12,7 +12,7 @@
     var socket;
 
     $().ready(function () {
-        var limit = 500,
+        var limit = 5000,
             offset = 0,
             loading = false,
             searching = false;
