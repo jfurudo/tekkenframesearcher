@@ -14,6 +14,7 @@
     $().ready(function () {
         var limit = 500,
             offset = 0,
+            loading = false,
             searching = false;
 
         socket = io.connect(location.href);
@@ -76,13 +77,15 @@
         $(window).on("scroll", function() {
             var scrollHeight = $(document).height();
             var scrollPosition = $(window).height() + $(window).scrollTop();
+//             console.log((scrollHeight - scrollPosition) / scrollHeight);
             if ((scrollHeight - scrollPosition) / scrollHeight === 0) {
-                if (searching === true) {
+                if (searching === true && loading === false) {
                     getMoves();
                 }
             }
         });
         var getMoves = function () {
+            loading = true;
             if (searching === false) {
                 $("#moveList").empty();
             }
@@ -166,6 +169,7 @@
                 $row.append(tdArray);
                 $("#moveList").append($row);
             }
+            loading = false;
         };
     });
 
