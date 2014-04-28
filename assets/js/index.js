@@ -68,12 +68,6 @@
             offset = 0;
             getMoves();
         });
-        // $('footer').waypoint(function (direction) {
-        //     console.log(searching, offset, direction);
-        //     if (direction === "down" && searching === true) {
-        //         getMoves();
-        //     }
-        // });
         $(window).on("scroll", function() {
             var scrollHeight = $(document).height();
             var scrollPosition = $(window).height() + $(window).scrollTop();
