@@ -22,7 +22,8 @@
         $("#character").select2({
             data: characters,
             placeholder: "指定なし",
-            allowClear: true
+            allowClear: true,
+            multiple: true
         });
         $("#detectionFlag").click(function () {
             if (this.value === "0") {
@@ -83,7 +84,7 @@
             if (searching === false) {
                 $("#moveList").empty();
             }
-            var character = $("#character").val(),
+            var selectedCaharacters = $("#character").val().split(','),
                 name = $("#name").val(),
                 detectionFlag = $("#detectionFlag").val(),
                 detection = $("#detection").val(),
@@ -93,8 +94,8 @@
                 searchType = "move",
                 data = {where: {}, limit: limit, offset: offset};
 
-            if (character !== "") {
-                data.where.character = character;
+            if (selectedCaharacters.length !== 0) {
+                data.where.character = selectedCaharacters;
             }
             if (name !== "") {
                 data.where.name = {
@@ -111,8 +112,8 @@
             }
             if (guardMin !== "" && detection !== "4" && detection !== "5") {
                 if (frameType === "eq") {
-                    data.where._guard_max = guardMin;
-                    data.where._guard_min = guardMin;
+                    data.where._guard_max = Number(guardMin);
+                    data.where._guard_min = Number(guardMin);
                 } else if (frameType === "gt") {
                     data.where._guard_min = {
                         ">=": Number(guardMin)
@@ -149,22 +150,32 @@
         };
         var appendMoveRow = function (moves, type) {
             for (var i = 0; i < moves.length; i++) {
-                var $row = $("<tr />");
+                var $row = $('<tr />');
                 var tdArray = [];
-                tdArray.push("<td>" + moves[i].character + "</td>");
-                tdArray.push("<td>" + moves[i].name + "</td>");
-                tdArray.push("<td>" + moves[i].command + "</td>");
-                tdArray.push("<td>" + moves[i].detection + "</td>");
-                tdArray.push("<td>" + moves[i].damage + "</td>");
-                tdArray.push("<td>" + moves[i].startup + "</td>");
-                tdArray.push("<td>" + moves[i].guard + "</td>");
-                tdArray.push("<td>" + moves[i].hit + "</td>");
-                tdArray.push("<td>" + moves[i].ch + "</td>");
-                $row.append(tdArray);
-                $("#moveList").append($row);
+                tdArray.push('<td class="row1">' + moves[i].character + '</td>');
+                tdArray.push('<td class="row1">' + moves[i].name + '</td>');
+                tdArray.push('<td class="row2">' + moves[i].command + '</td>');
+                tdArray.push('<td class="row2">' + moves[i].detection + '</td>');
+                tdArray.push('<td class="row2">' + moves[i].damage + '</td>');
+                tdArray.push('<td class="row2">' + moves[i].startup + '</td>');
+                tdArray.push('<td class="row2">' + moves[i].guard + '</td>');
+                tdArray.push('<td class="row2">' + moves[i].hit + '</td>');
+                tdArray.push('<td class="row2">' + moves[i].ch + '</td>');
+                if (false) {
+                    var $row2 = $('<tr />').append(tdArray.splice(2, 7));
+                    $row.append(tdArray);
+                    $('#moveList').append($row);
+                    $('#moveList').append($row2);
+                } else {
+                    $row.append(tdArray);
+                    $('#moveList').append($row);                    
+                }
             }
             loading = false;
         };
+        // $("th.row1, th.row2").unwrap();
+        // $("th.row1").wrapAll(("<tr />"));
+        // $("th.row2").wrapAll(("<tr />"));
     });
 
 })();
