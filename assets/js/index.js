@@ -94,7 +94,7 @@
                 searchType = "move",
                 data = {where: {}, limit: limit, offset: offset};
 
-            if (selectedCaharacters.length !== 0) {
+            if (selectedCaharacters[0] !== "") {
                 data.where.character = selectedCaharacters;
             }
             if (name !== "") {
@@ -124,6 +124,7 @@
                     };
                 }
             }
+            console.log(data);
             socket.request("/" + searchType + "/find", data, function (data) {
                 if (data.length < limit) {
                     searching = false;
