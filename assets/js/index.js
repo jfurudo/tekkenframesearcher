@@ -12,7 +12,7 @@
     var socket;
 
     $().ready(function () {
-        var limit = 5000,
+        var limit = 10,
             offset = 0,
             loading = false,
             searching = false;
@@ -72,7 +72,8 @@
         $(window).on("scroll", function() {
             var scrollHeight = $(document).height();
             var scrollPosition = $(window).height() + $(window).scrollTop();
-//             console.log((scrollHeight - scrollPosition) / scrollHeight);
+            console.log((scrollHeight - scrollPosition) / scrollHeight);
+            console.log(searching, loading);
             if ((scrollHeight - scrollPosition) / scrollHeight === 0) {
                 if (searching === true && loading === false) {
                     getMoves();
@@ -151,32 +152,52 @@
         };
         var appendMoveRow = function (moves, type) {
             for (var i = 0; i < moves.length; i++) {
-                var $row = $('<tr />');
+                var $row = $('<tr class="movelist-row col-xs-12"></tr>');
                 var tdArray = [];
-                tdArray.push('<td class="row1">' + moves[i].character + '</td>');
-                tdArray.push('<td class="row1">' + moves[i].name + '</td>');
-                tdArray.push('<td class="row2">' + moves[i].command + '</td>');
-                tdArray.push('<td class="row2">' + moves[i].detection + '</td>');
-                tdArray.push('<td class="row2">' + moves[i].damage + '</td>');
-                tdArray.push('<td class="row2">' + moves[i].startup + '</td>');
-                tdArray.push('<td class="row2">' + moves[i].guard + '</td>');
-                tdArray.push('<td class="row2">' + moves[i].hit + '</td>');
-                tdArray.push('<td class="row2">' + moves[i].ch + '</td>');
-                if (false) {
-                    var $row2 = $('<tr />').append(tdArray.splice(2, 7));
-                    $row.append(tdArray);
-                    $('#moveList').append($row);
-                    $('#moveList').append($row2);
-                } else {
-                    $row.append(tdArray);
-                    $('#moveList').append($row);                    
-                }
+                tdArray.push('<td class="row1 col-xs-4 col-sm-1 col-md-1">' + moves[i].character + '</td>');
+                tdArray.push('<td class="row1 col-xs-8 col-sm-2 col-md-2">' + moves[i].name + '</td>');
+                tdArray.push('<td class="row2 col-xs-3 col-sm-2 col-md-2">' + moves[i].command.replace(/\./g, ", ") + '</td>');
+                tdArray.push('<td class="row2 col-xs-2 col-sm-1 col-md-1">' + moves[i].detection.replace(/\./g, ", ") + '</td>');
+                tdArray.push('<td class="row2 col-xs-2 col-sm-1 col-md-1">' + moves[i].damage.replace(/\./g, ", ") + '</td>');
+                tdArray.push('<td class="row2 col-xs-2 col-sm-1 col-md-1">' + moves[i].startup + '</td>');
+                tdArray.push('<td class="row2 col-xs-1 col-sm-1 col-md-1">' + moves[i].guard + '</td>');
+                tdArray.push('<td class="row2 col-xs-1 col-sm-1 col-md-1">' + moves[i].hit + '</td>');
+                tdArray.push('<td class="row2 col-xs-1 col-sm-1 col-md-1">' + moves[i].ch + '</td>');
+                $row.append(tdArray);
+                $('#moveList').append($row);                    
             }
             loading = false;
         };
-        // $("th.row1, th.row2").unwrap();
-        // $("th.row1").wrapAll(("<tr />"));
-        // $("th.row2").wrapAll(("<tr />"));
+        var toggleDesign = function (type) {
+            var tr = '<tr class="col-xs-12"></tr>';
+            if (type === "smartphone") {
+                $('#thDamage').text("ダメ");
+                $('#thGuard').text("G");
+                $('#thHit').text("H");
+            } else {
+                $('#thDamage').text("ダメージ");
+                $('#thGuard').text("ガード");
+                $('#thHit').text("ヒット");
+            }
+        };
+        $(window).resize(function(){
+            var win = $(window).width();
+            var p = 786;
+            if(win > p){
+                toggleDesign("normal");
+            } else {
+                toggleDesign("smartphone");
+            }
+        });
+
+        // require refactor
+        var win = $(window).width();
+        var p = 786;
+        if(win > p){
+            toggleDesign("normal");
+        } else {
+            toggleDesign("smartphone");
+        }
     });
 
 })();

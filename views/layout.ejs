@@ -6,6 +6,7 @@
         your `sails.config.appName` to show that you can inject data into layouts
         exactly the same way as with your other view templates.
     -->
+
     <title><%- title %></title>
 
     <!-- Viewport mobile tag for sensible mobile support -->
@@ -109,7 +110,7 @@
             <a href="http://twitter.com/osg4432">osg4432</a>
             </p> -->
             <p class="version">
-              Version 0.0.1 <a href="#">release note</a>
+            Version 0.1.0 <a id="releaseNote" rel="popover" title="Release Note" data-placement="top" data-content-="">Release Note</a>
             </p>
             <p>
               ※ このアプリケーションは
@@ -117,9 +118,13 @@
               のデータをお借りして作成しています．
             </p>
           </div>
-          </script>
-        </footer>
           <script>
+          /* $(function() {
+          $('[rel=popover]').popover();
+          }); */
+          </script>        
+        </footer>
+        <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -127,5 +132,6 @@
 
   ga('create', 'UA-50454988-1', 'tekkenframesearcher.herokuapp.com');
   ga('send', 'pageview');
+        </script>
     </body>
 </html>
